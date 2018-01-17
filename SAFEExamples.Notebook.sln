@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAFEExamples.Notebook", "SAFEExamples.Notebook\SAFEExamples.Notebook.csproj", "{C090650C-FE67-43EC-97E9-6800BDC2CAE3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAFE.DotNET.Auth", "SAFE.DotNET.Auth\SAFE.DotNET.Auth.csproj", "{806FAC15-01DF-4AFB-8423-643D94C06DDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C090650C-FE67-43EC-97E9-6800BDC2CAE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C090650C-FE67-43EC-97E9-6800BDC2CAE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C090650C-FE67-43EC-97E9-6800BDC2CAE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C090650C-FE67-43EC-97E9-6800BDC2CAE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806FAC15-01DF-4AFB-8423-643D94C06DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806FAC15-01DF-4AFB-8423-643D94C06DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806FAC15-01DF-4AFB-8423-643D94C06DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806FAC15-01DF-4AFB-8423-643D94C06DDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5B6C9DF1-807B-4FC5-AB91-AE702615AE86}
+	EndGlobalSection
+EndGlobal

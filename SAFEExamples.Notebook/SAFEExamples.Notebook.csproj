@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SAFE.DotNET.Auth\SAFE.DotNET.Auth.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SAFE.CQRS">
+      <HintPath>..\..\..\SAFE.EventStore\SAFE.CQRS\bin\Debug\netstandard2.0\SAFE.CQRS.dll</HintPath>
+    </Reference>
+    <Reference Include="SAFE.DotNET">
+      <HintPath>..\..\..\SAFE.EventStore\SAFE.CQRS\bin\Debug\netstandard2.0\SAFE.DotNET.dll</HintPath>
+    </Reference>
+    <Reference Include="SAFE.EventStore">
+      <HintPath>..\..\..\SAFE.EventStore\SAFE.CQRS\bin\Debug\netstandard2.0\SAFE.EventStore.dll</HintPath>
+    </Reference>
+    <Reference Include="SAFE.Utils">
+      <HintPath>..\..\..\SAFE.EventStore\SAFE.CQRS\bin\Debug\netstandard2.0\SAFE.Utils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
