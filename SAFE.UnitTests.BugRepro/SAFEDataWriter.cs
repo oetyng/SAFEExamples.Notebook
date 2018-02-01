@@ -60,33 +60,27 @@ namespace SAFE.EventStore.Services
             return await NativeUtils.Sha3HashAsync(plainTextId.ToUtfBytes());
         }
 
-        public async Task Write_x(string databaseId)
+        public async Task<List<byte>> Write_1(string databaseId)
         {
             databaseId = DbIdForProtocol(databaseId);
 
             if (databaseId.Contains(".") || databaseId.Contains("@"))
                 throw new NotSupportedException("Unsupported characters '.' and '@'.");
-
-            // Check if account exits first and return error
-            var dstPubIdDigest = await GetMdXorName(databaseId);
+            
+            return await GetMdXorName(databaseId);
         }
 
-        public async Task Write_0(string databaseId)
+        public async Task Write_2(string databaseId)
         {
-            databaseId = DbIdForProtocol(databaseId);
+            var dstPubIdDigest = await Write_1(databaseId);
 
-            if (databaseId.Contains(".") || databaseId.Contains("@"))
-                throw new NotSupportedException("Unsupported characters '.' and '@'.");
-
-            // Check if account exits first and return error
-            var dstPubIdDigest = await GetMdXorName(databaseId);
             using (var dstPubIdMDataInfoH = await MDataInfo.NewPublicAsync(dstPubIdDigest, 15001))
             {
                 // no action
             }
         }
 
-        public async Task Write_1(string databaseId)
+        public async Task Write_3(string databaseId)
         {
             databaseId = DbIdForProtocol(databaseId);
 
@@ -117,9 +111,9 @@ namespace SAFE.EventStore.Services
             // no action
         }
 
-        public async Task Write_2(string databaseId)
+        public async Task Write_4(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -128,9 +122,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_3(string databaseId)
+        public async Task Write_5(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -145,9 +139,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_4(string databaseId)
+        public async Task Write_6(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -165,9 +159,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_5(string databaseId)
+        public async Task Write_7(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -188,9 +182,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_6(string databaseId)
+        public async Task Write_8(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -211,9 +205,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_7(string databaseId)
+        public async Task Write_9(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -239,9 +233,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_8(string databaseId)
+        public async Task Write_10(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -268,9 +262,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_9(string databaseId)
+        public async Task Write_11(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -298,9 +292,9 @@ namespace SAFE.EventStore.Services
         }
 
 
-        public async Task Write_10(string databaseId)
+        public async Task Write_12(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -340,9 +334,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_11(string databaseId)
+        public async Task Write_13(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -383,9 +377,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_12(string databaseId)
+        public async Task Write_14(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -427,9 +421,9 @@ namespace SAFE.EventStore.Services
         }
 
 
-        public async Task Write_13(string databaseId)
+        public async Task Write_15(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -474,9 +468,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_14(string databaseId)
+        public async Task Write_16(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
@@ -522,9 +516,9 @@ namespace SAFE.EventStore.Services
             }
         }
 
-        public async Task Write_15(string databaseId)
+        public async Task Write_17(string databaseId)
         {
-            await Write_1(databaseId);
+            await Write_3(databaseId);
 
             // Create Self Permissions
             using (var categorySelfPermSetH = await MDataPermissionSet.NewAsync())
