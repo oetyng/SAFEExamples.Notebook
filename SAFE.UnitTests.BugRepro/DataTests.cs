@@ -36,7 +36,7 @@ namespace SAFE.DotNet.UnitTests
                     {
                         var dbId = Mock.RandomString(15);
                         //await db.CreateDbAsync(dbId);
-                        await db.Write_x(dbId);
+                        await db.Write_1(dbId);
                         Debug.WriteLine(++dbCount);
                         await Task.Delay(1);
                     }
