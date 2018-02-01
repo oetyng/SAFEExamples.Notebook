@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.2.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SAFE.DotNET">
+      <HintPath>..\..\..\SAFE.DotNET\SAFE.DotNET\bin\Debug\netstandard2.0\SAFE.DotNET.dll</HintPath>
+    </Reference>
+    <Reference Include="SAFE.DotNet.Auth">
+      <HintPath>..\..\..\SAFE.DotNET\SAFE.DotNet.Auth\bin\Debug\netstandard2.0\SAFE.DotNet.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="SAFE.DotNet.Utils">
+      <HintPath>..\..\..\SAFE.DotNET\SAFE.DotNET.Auth\bin\Debug\netstandard2.0\SAFE.DotNet.Utils.dll</HintPath>
+    </Reference>
+    <Reference Include="SAFE.EventStore">
+      <HintPath>..\..\..\Eventstore Project\SAFE.EventStore\SAFE.EventStore\bin\Debug\netstandard2.0\SAFE.EventStore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="crust.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="log.toml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="safe_app.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="safe_authenticator.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="system_uri.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
