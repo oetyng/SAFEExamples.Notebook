@@ -59,12 +59,12 @@ namespace SAFEExamples.Notebook
         {
             Console.WriteLine("Enter database id (creates if not exists): ");
             var dbid = Console.ReadLine();
-            _cmdHandler = new NoteBookCmdHandler(new Repository(new EventStreamCache(new EventStoreImDProtocol(), dbid)));
+            _cmdHandler = new NoteBookCmdHandler(new Repository(new EventStreamHandler(new EventStoreImDProtocol(), dbid)));
         }
 
         static void CollectNotes()
         {
-            int expectedVersion = -1;
+            int expectedVersion = StreamVersion.NoStream
             while (true)
             {
                 Console.WriteLine("Write a note..");
