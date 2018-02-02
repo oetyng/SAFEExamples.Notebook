@@ -11,14 +11,14 @@ namespace SAFE.DotNet.UnitTests
     [TestClass]
     public class DataTests
     {
-        [TestMethod]
+        [TestMethod] // Debug this method to be able to see debug output etc.
         public async Task CreateDbs()
         {
             try
             {
                 var loginCount = 0;
-                var keypass = "asd";
-                while (true)
+                var keypass = "asd";  // you need to have created this acc / pwd combo first.
+                while (true) // login does not always work at first try with the local network.
                 {
                     if (await AutoLogin(keypass, keypass))
                         break;
@@ -35,9 +35,9 @@ namespace SAFE.DotNet.UnitTests
                     try
                     {
                         var dbId = Mock.RandomString(15);
-                        //await db.CreateDbAsync(dbId);
-                        await db.Write_1(dbId);
-                        Debug.WriteLine(++dbCount);
+                        //await db.CreateDbAsync(dbId); // this is the original operation
+                        await db.Write_1(dbId); // Write_1 - Write_17 will execute one additional operation per method, from CreateDbAsync. Write_17 will do the same as CreateDbAsync.
+                        Debug.WriteLine(++dbCount); // so we expect to reach ~1285 iterations on Write_1 and about 50 iterations on Write_17
                         await Task.Delay(1);
                     }
                     catch (Exception ex)
