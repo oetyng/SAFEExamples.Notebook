@@ -9,13 +9,20 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AuthSession = SAFE.DotNET.Auth.Native.Session;
+using AuthBindings = SAFE.DotNET.Auth.Native.NativeBindings;
+using AuthFileOps = SAFE.DotNET.Auth.FileOpsFactory;
+using Session = SAFE.DotNET.Native.Session;
+using NativeBindings = SAFE.DotNET.Native.NativeBindings;
+using FileOps = SAFE.DotNET.FileOpsFactory;
 
 namespace SAFEExamples.Notebook
 {
     class Program
     {
         static AuthService _auth;
-        static IAppSession _session;
+        static AppSession _app;
+        static Session _session;
         static readonly long _sessionId = new Random(new Random().Next()).Next();
         static NoteBookCmdHandler _cmdHandler;
 
@@ -27,6 +34,8 @@ namespace SAFEExamples.Notebook
 
                 Console.WriteLine();
                 Console.WriteLine(" -------- SAFEExamples.Notebook -------- ");
+
+                InitApp();
 
                 if (!CreateAccount().GetAwaiter().GetResult())
                     Login().GetAwaiter().GetResult();
@@ -50,21 +59,27 @@ namespace SAFEExamples.Notebook
             Console.ReadKey();
         }
 
-        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        static void InitApp()
         {
-            
+            _session = new Session(new NativeBindings(), FileOps.Create());
+            _app = new AppSession(_session);
+            if (_auth == null)
+            {
+                var authSession = new AuthSession(new AuthBindings(), AuthFileOps.Create());
+                _auth = new AuthService(authSession);
+            }
         }
         
         static void SetupCmdHandler()
         {
             Console.WriteLine("Enter database id (creates if not exists): ");
             var dbid = Console.ReadLine();
-            _cmdHandler = new NoteBookCmdHandler(new Repository(new EventStreamHandler(new EventStoreImDProtocol(), dbid)));
+            _cmdHandler = new NoteBookCmdHandler(new Repository(new EventStreamHandler(new EventStoreImDProtocol(_app.AppId, _session), dbid)));
         }
 
         static void CollectNotes()
         {
-            int expectedVersion = StreamVersion.NoStream
+            int expectedVersion = StreamVersion.NoStream;
             while (true)
             {
                 Console.WriteLine("Write a note..");
@@ -122,8 +137,6 @@ namespace SAFEExamples.Notebook
                     break;
             }
 
-            _auth = SAFE.DotNET.Auth.DependencyService.Get<AuthService>();
-
             Console.Write("Username: ");
             var user = Console.ReadLine();
             Console.Write("Password: ");
@@ -150,18 +163,15 @@ namespace SAFEExamples.Notebook
 
         static async Task AutoLogin(string user, string pwd)
         {
-            _auth = SAFE.DotNET.Auth.DependencyService.Get<AuthService>();
-            _session = new AppSession();
-
             await _auth.LoginAsync(user, pwd);
 
-            var request = await _session.GenerateAppRequestAsync();
+            var request = await _app.GenerateAppRequestAsync();
             request = request.Replace("safe-auth://", ":");
             var response = await _auth.HandleUrlActivationAsync(request);
             response = response.Replace("safe-oetyng.apps.safe.eventstore://", ":");
-            await _session.HandleUrlActivationAsync(response);
+            await _app.HandleUrlActivationAsync(response);
 
-            if (!_session.IsAuthenticated)
+            if (!_app.IsAuthenticated)
             {
                 Console.WriteLine("Could not log in.");
                 Console.WriteLine("Press any key to exit.");
@@ -169,6 +179,7 @@ namespace SAFEExamples.Notebook
                 Environment.Exit(-1);
             }
         }
+
         #endregion Session
 
 
@@ -242,5 +253,11 @@ namespace SAFEExamples.Notebook
             Console.WriteLine(json);
         }
         #endregion Load tests
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+
+        }
+
     }
 }

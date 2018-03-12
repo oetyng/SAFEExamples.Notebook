@@ -14,6 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="SAFE.DEC">
+      <HintPath>..\..\..\Eventstore Project\SAFE.DEC\SAFE.DEC\bin\Debug\netstandard2.0\SAFE.DEC.dll</HintPath>
+    </Reference>
     <Reference Include="SAFE.DotNET">
       <HintPath>..\..\..\SAFE.DotNET\SAFE.DotNET\bin\Debug\netstandard2.0\SAFE.DotNET.dll</HintPath>
     </Reference>
