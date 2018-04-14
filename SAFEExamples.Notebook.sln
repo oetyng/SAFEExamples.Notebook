@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAFE.UnitTests.BugRepro", "SAFE.UnitTests.BugRepro\SAFE.UnitTests.BugRepro.csproj", "{A16E4B7A-5198-41A8-AAF3-DCFD7FEC0660}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAFE.UnitTests.BugRepro", "SAFE.UnitTests.BugRepro\SAFE.UnitTests.BugRepro.csproj", "{A16E4B7A-5198-41A8-AAF3-DCFD7FEC0660}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAFE.Notebook", "SAFE.Notebook\SAFE.Notebook.csproj", "{08CF7DCF-3EB6-4430-BFC4-C6C9F2490190}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAFE.Notebook", "SAFE.Notebook\SAFE.Notebook.csproj", "{08CF7DCF-3EB6-4430-BFC4-C6C9F2490190}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

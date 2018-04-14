@@ -37,9 +37,8 @@ namespace SAFEExamples.Notebook
 
                 InitApp();
 
-                if (!CreateAccount().GetAwaiter().GetResult())
-                    Login().GetAwaiter().GetResult();
-                
+                ConnectAsync().GetAwaiter().GetResult();
+
                 SetupCmdHandler();
 
                 Console.WriteLine();
@@ -59,17 +58,6 @@ namespace SAFEExamples.Notebook
             Console.ReadKey();
         }
 
-        static void InitApp()
-        {
-            _session = new Session(new NativeBindings(), FileOps.Create());
-            _app = new AppSession(_session);
-            if (_auth == null)
-            {
-                var authSession = new AuthSession(new AuthBindings(), AuthFileOps.Create());
-                _auth = new AuthService(authSession);
-            }
-        }
-        
         static void SetupCmdHandler()
         {
             Console.WriteLine("Enter database id (creates if not exists): ");
@@ -121,8 +109,27 @@ namespace SAFEExamples.Notebook
         }
 
         #region Session
-       
-        static async Task<bool> CreateAccount()
+
+        static void InitApp()
+        {
+            _session = new Session(new NativeBindings(), FileOps.Create());
+            _app = new AppSession(_session);
+            if (_auth == null)
+            {
+                var authSession = new AuthSession(new AuthBindings(), AuthFileOps.Create());
+                _auth = new AuthService(authSession);
+            }
+        }
+
+        static async Task ConnectAsync()
+        {
+            if (!await CreateAccountAsync())
+                await LoginAsync();
+
+            await AuthenticateAppAsync();
+        }
+
+        static async Task<bool> CreateAccountAsync()
         {
             Console.WriteLine("");
             Console.WriteLine("---- Create account on SAFE Network ----");
@@ -144,12 +151,10 @@ namespace SAFEExamples.Notebook
 
             await _auth.CreateAccountAsync(user, pwd, "any string");
 
-            await AutoLogin(user, pwd);
-
             return true;
         }
 
-        static async Task Login()
+        static async Task LoginAsync()
         {
             Console.WriteLine("");
             Console.WriteLine("---- Login to SAFE Network ----");
@@ -158,13 +163,11 @@ namespace SAFEExamples.Notebook
             Console.Write("Enter password: ");
             var pwd = Console.ReadLine();
 
-            await AutoLogin(user, pwd);
+            await _auth.LoginAsync(user, pwd);
         }
 
-        static async Task AutoLogin(string user, string pwd)
+        static async Task AuthenticateAppAsync()
         {
-            await _auth.LoginAsync(user, pwd);
-
             var request = await _app.GenerateAppRequestAsync();
             request = request.Replace("safe-auth://", ":");
             var response = await _auth.HandleUrlActivationAsync(request);
@@ -179,7 +182,6 @@ namespace SAFEExamples.Notebook
                 Environment.Exit(-1);
             }
         }
-
         #endregion Session
 
 

@@ -45,8 +45,8 @@ namespace SAFE.DotNet.UnitTests
                     await Task.Delay(100);
                 }
 
-                //var db = new EventStoreImDProtocol();
-                var db = new SAFEDataWriter(_app.AppId, session);
+                var db = new EventStoreImDProtocol(_app.AppId, session);
+                //var db = new SAFEDataWriter(_app.AppId, session);
 
                 var dbCount = 0;
                 while (true)
@@ -54,8 +54,8 @@ namespace SAFE.DotNet.UnitTests
                     try
                     {
                         var dbId = Mock.RandomString(15);
-                        //await db.CreateDbAsync(dbId); // this is the original operation
-                        await db.Write_17(dbId); // Write_1 - Write_17 will execute one additional operation per method, from CreateDbAsync. Write_17 will do the same as CreateDbAsync.
+                        await db.CreateDbAsync(dbId); // this is the original operation
+                        //await db.Write_17(dbId); // Write_1 - Write_17 will execute one additional operation per method, from CreateDbAsync. Write_17 will do the same as CreateDbAsync.
                         Debug.WriteLine(++dbCount); // so we expect to reach ~1285 iterations on Write_1 and about 50 iterations on Write_17
                         await Task.Delay(1);
                     }
@@ -101,18 +101,19 @@ namespace SAFE.DotNet.UnitTests
                 {
                     try
                     {
-                        var evt = new NoteAdded(0, "someNote") // create some data, in form of an event
+                        var evt = new RaisedEvent(new NoteAdded(0, "someNote")) // create some data, in form of an event
                         {
                             SequenceNumber = ++version // protocol way of managing concurrent write to the stream
                         };
-                        var events = new List<NoteAdded> { evt };
+                        
+                        var events = new List<RaisedEvent> { evt };
                         var data = events.Select(e => new EventData(
-                            e.AsBytes(),
+                            e.Payload,
                             Guid.NewGuid(),
                             Guid.NewGuid(),
-                            e.GetType().AssemblyQualifiedName,
+                            e.EventClrType,
                             e.Id,
-                            e.GetType().Name,
+                            e.Name,
                             e.SequenceNumber,
                             e.TimeStamp))
                         .ToList(); // protocol way of how to serialize and package the event data
