@@ -1,5 +1,4 @@
 ﻿using SAFE.CQRS;
-using SAFE.DotNET.Auth.Services;
 using SAFE.EventSourcing.Stream;
 using SAFE.EventStore.Services;
 using SAFE.SystemUtils;
@@ -9,20 +8,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AuthSession = SAFE.DotNET.Auth.Native.Session;
-using AuthBindings = SAFE.DotNET.Auth.Native.NativeBindings;
-using AuthFileOps = SAFE.DotNET.Auth.FileOpsFactory;
-using Session = SAFE.DotNET.Native.Session;
-using NativeBindings = SAFE.DotNET.Native.NativeBindings;
-using FileOps = SAFE.DotNET.FileOpsFactory;
+using SafeAuthenticator.Services;
 
 namespace SAFEExamples.Notebook
 {
     class Program
     {
-        static AuthService _auth;
+        static AuthService _authService;
+        //static Authenticator _auth;
         static AppSession _app;
-        static Session _session;
+        static SAFE.EventSourcing.IEventStore _eventStore;
         static readonly long _sessionId = new Random(new Random().Next()).Next();
         static NoteBookCmdHandler _cmdHandler;
 
@@ -62,7 +57,7 @@ namespace SAFEExamples.Notebook
         {
             Console.WriteLine("Enter database id (creates if not exists): ");
             var dbid = Console.ReadLine();
-            _cmdHandler = new NoteBookCmdHandler(new Repository(new EventStreamHandler(new EventStoreImDProtocol(_app.AppId, _session), dbid)));
+            _cmdHandler = new NoteBookCmdHandler(new Repository(new EventStreamHandler(_eventStore, dbid)));
         }
 
         static void CollectNotes()
@@ -112,13 +107,8 @@ namespace SAFEExamples.Notebook
 
         static void InitApp()
         {
-            _session = new Session(new NativeBindings(), FileOps.Create());
-            _app = new AppSession(_session);
-            if (_auth == null)
-            {
-                var authSession = new AuthSession(new AuthBindings(), AuthFileOps.Create());
-                _auth = new AuthService(authSession);
-            }
+            _app = new AppSession();
+            _authService = new AuthService();
         }
 
         static async Task ConnectAsync()
@@ -149,7 +139,7 @@ namespace SAFEExamples.Notebook
             Console.Write("Password: ");
             var pwd = Console.ReadLine();
 
-            await _auth.CreateAccountAsync(user, pwd, "any string");
+            await _authService.CreateAccountAsync(user, pwd, "any string");
 
             return true;
         }
@@ -163,16 +153,17 @@ namespace SAFEExamples.Notebook
             Console.Write("Enter password: ");
             var pwd = Console.ReadLine();
 
-            await _auth.LoginAsync(user, pwd);
+            await _authService.LoginAsync(user, pwd);
         }
 
         static async Task AuthenticateAppAsync()
         {
             var request = await _app.GenerateAppRequestAsync();
             request = request.Replace("safe-auth://", ":");
-            var response = await _auth.HandleUrlActivationAsync(request);
+            
+            var response = await _authService.HandleUrlActivationAsync(request);
             response = response.Replace("safe-oetyng.apps.safe.eventstore://", ":");
-            await _app.HandleUrlActivationAsync(response);
+            _eventStore = await _app.HandleUrlActivationAsync(response);
 
             if (!_app.IsAuthenticated)
             {
@@ -182,6 +173,7 @@ namespace SAFEExamples.Notebook
                 Environment.Exit(-1);
             }
         }
+
         #endregion Session
 
 

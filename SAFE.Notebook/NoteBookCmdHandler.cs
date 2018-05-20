@@ -10,12 +10,10 @@ namespace SAFE.TestCQRSApp
 
         IContext Handle(AddNote cmd)
         {
-            var ctx = new Context<AddNote, NoteBook>(cmd, _repo);
-
-            ctx.SetAction((c, ar) =>
+            var ctx = new Context<AddNote, NoteBook>(cmd, _repo, (c, ar) =>
             {
                 if (ar.Version == -1)
-                    ar.Init(cmd.TargetId).GetAwaiter().GetResult();
+                    ar.Init(c.TargetId).GetAwaiter().GetResult();
                 return ar.AddNote(c.Note);
             });
 

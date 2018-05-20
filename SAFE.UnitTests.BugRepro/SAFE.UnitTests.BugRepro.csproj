@@ -14,20 +14,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SAFE.Notebook\SAFE.Notebook.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="SAFE.DEC">
       <HintPath>..\..\..\Eventstore Project\SAFE.DEC\SAFE.DEC\bin\Debug\netstandard2.0\SAFE.DEC.dll</HintPath>
     </Reference>
-    <Reference Include="SAFE.DotNET">
-      <HintPath>..\..\..\SAFE.DotNET\SAFE.DotNET\bin\Debug\netstandard2.0\SAFE.DotNET.dll</HintPath>
-    </Reference>
-    <Reference Include="SAFE.DotNet.Auth">
-      <HintPath>..\..\..\SAFE.DotNET\SAFE.DotNet.Auth\bin\Debug\netstandard2.0\SAFE.DotNet.Auth.dll</HintPath>
-    </Reference>
-    <Reference Include="SAFE.DotNet.Utils">
-      <HintPath>..\..\..\SAFE.DotNET\SAFE.DotNET.Auth\bin\Debug\netstandard2.0\SAFE.DotNet.Utils.dll</HintPath>
-    </Reference>
     <Reference Include="SAFE.EventStore">
-      <HintPath>..\..\..\Eventstore Project\SAFE.EventStore\SAFE.EventStore\bin\Debug\netstandard2.0\SAFE.EventStore.dll</HintPath>
+      <HintPath>..\..\SAFE.EventStore - Copy\SAFE.EventStore\bin\Debug\netstandard2.0\SAFE.EventStore.dll</HintPath>
+    </Reference>
+    <Reference Include="SafeApp">
+      <HintPath>..\..\SafeAppFork\SafeApp\bin\Debug\netstandard2.0\SafeApp.dll</HintPath>
+    </Reference>
+    <Reference Include="SafeApp.AppBindings">
+      <HintPath>..\..\SafeAppFork\SafeApp\bin\Debug\netstandard2.0\SafeApp.AppBindings.dll</HintPath>
+    </Reference>
+    <Reference Include="SafeApp.MockAuthBindings">
+      <HintPath>..\..\SafeAppFork\SafeApp.MockAuthBindings\bin\Debug\netstandard2.0\SafeApp.MockAuthBindings.dll</HintPath>
+    </Reference>
+    <Reference Include="SafeApp.Utilities">
+      <HintPath>..\..\SafeAppFork\SafeApp\bin\Debug\netstandard2.0\SafeApp.Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
 
@@ -38,13 +45,13 @@
     <None Update="log.toml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="safe_app.dll">
+    <None Update="routing.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="safe_authenticator.dll">
+    <None Update="safe_core.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="system_uri.dll">
+    <None Update="vault.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
